@@ -23,40 +23,56 @@ export const uploadFile = async (formData) => {
         valueProgressBar.set(progress);
       }
     });
-    return response.status;
+    return response;
   } catch (error) {
     console.error('uploadFile:', error);
     return error.response.data.error;
   }
 }
 
-// export const patchInfoContactos = async (
-//   idDoc,
-//   token,
-//   nombresApellidos,
-//   tipoDocumento,
-//   numeroDocumento,
-//   numeroFijo,
-//   extension,
-//   numeroCelular,
-//   direccionCorreo
-// ) => {
-//   try {
-//     const headers = createHeaders();
-//     headers['Authorization'] = `Bearer ${token}`;
-//     const url = `${API_URL}/${MODEL}/${idDoc}`;
-//     const response = await axios.patch(url, {
-//       nombresApellidos: nombresApellidos.toUpperCase(),
-//       tipoDocumento: tipoDocumento.toUpperCase(),
-//       numeroDocumento: numeroDocumento.toUpperCase(),
-//       numeroFijo: numeroFijo.toUpperCase(),
-//       extension: extension.toUpperCase(),
-//       numeroCelular: numeroCelular.toUpperCase(),
-//       direccionCorreo: direccionCorreo.toLowerCase()
-//     }, { headers });
-//     return response.status;
-//   } catch (error) {
-//     console.error('patchInfoLegal:', error);
-//     throw error;
-//   }
-// }
+export const addResource = async (
+  fileName, fileType, fileSize, fileUrl
+) => {
+  try {
+    // const headers = createHeaders();
+    // headers['Authorization'] = `Bearer ${token}`;
+    const url = `${API_URL}/resources`;
+    const response = await axios.post(url, {
+      fileName,
+      fileType,
+      fileSize,
+      fileUrl,
+      area: 'telem'
+    });
+    return response;
+  } catch (error) {
+    console.error('addResource:', error);
+    return error;
+  }
+}
+
+export const getFilesType = async (area) => {
+  try {
+    // const headers = createHeaders();
+    // headers['Authorization'] = `Bearer ${token}`;
+    const url = `${API_URL}/files/${area}`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error('addResource:', error);
+    return error;
+  }
+}
+
+export const getResources = async () => {
+  try {
+    // const headers = createHeaders();
+    // headers['Authorization'] = `Bearer ${token}`;
+    const url = `${API_URL}/resources`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error('addResource:', error);
+    return error;
+  }
+}

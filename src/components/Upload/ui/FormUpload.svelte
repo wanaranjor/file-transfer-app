@@ -1,6 +1,6 @@
 <script>
   import { isEmpty } from "../../../helpers/validators";
-  import { uploadFile } from "../services/upload.services.js";
+  import { uploadFile, addResource } from "../services/upload.services.js";
   import { valueProgressBar } from "../stores/upload.storage";
   import { NotificationDisplay, notifier } from "@beyonk/svelte-notifications";
   import AddFilled32 from "carbon-icons-svelte/lib/AddFilled32";
@@ -11,8 +11,8 @@
     message,
     fileName,
     fileType,
-    fileSize = "";
-
+    fileUrl = "";
+  let fileSize = 0;
   let viewDetailsFile = false;
 
   $: formIsValid = isEmpty(file) && isEmpty(message);
@@ -29,16 +29,26 @@
   const handleSubmit = async (event) => {
     if (formIsValid) {
       const formData = new FormData(event.target);
-      const result = await uploadFile(formData);
-      if (result === 200) {
+      const response = await uploadFile(formData);
+      if (response.status === 200) {
         formIsValid = false;
+        fileUrl = response.data.filename;
+        console.log(fileName);
+        const resource = await addResource(
+          fileName,
+          fileType,
+          fileSize,
+          fileUrl
+        );
+        console.log(resource);
+
         // viewDetailsFile = false;
         // file = "";
         // message = "";
         notifier.success(`Archivo envido correctamente`, 5000);
       } else {
         notifier.danger(
-          `Error [${result.statusCode}]: ${result.message} - El tipo de archivo no se puede transmitir, verifique nuevamente.`,
+          `Error [${response.statusCode}]: ${response.message} - El tipo de archivo no se puede transmitir, verifique nuevamente.`,
           5000
         );
       }

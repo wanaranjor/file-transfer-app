@@ -1,6 +1,7 @@
 <script>
 	import FormUpload from "../components/Upload/ui/FormUpload.svelte";
 	import Hero from "../components/Upload/ui/Hero.svelte";
+	import ListFiles from "../components/Upload/ui/ListFiles.svelte";
 </script>
 
 <svelte:head>
@@ -11,7 +12,8 @@
 	<div class="w-full md:w-1/3">
 		<FormUpload />
 	</div>
-	<div class="hidden md:w-2/3">
+	<div class="md:w-2/3">
 		<Hero />
+		<ListFiles />
 	</div>
 </section>
