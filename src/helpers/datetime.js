@@ -5,8 +5,9 @@ export const dateTime = (date) => {
 };
 
 export const dateTimeAmPm = (date) => {
+  const newDate = new Date(date);
   const options = { month: "2-digit", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true };
-  const dateIntl = new Intl.DateTimeFormat("es-ES", options).format(date);
+  const dateIntl = new Intl.DateTimeFormat("es-ES", options).format(newDate);
   return dateIntl;
 };
 
