@@ -1,5 +1,21 @@
+<script context="module">
+	export async function preload({ user }, session) {
+		if (session.user) {
+			this.redirect(302, `/dashboard`);
+		}
+	}
+</script>
+
 <script>
-	import FormUpload from "../components/Upload/ui/FormUpload.svelte";
+	import { stores } from "@sapper/app";
+	import Login from "../components/login/ui/Login.svelte";
+	const { session } = stores();
+	// console.log($session.user);
+</script>
+
+<!-- <script>
+	import Login from "../components/login/ui/Login.svelte";
+import FormUpload from "../components/Upload/ui/FormUpload.svelte";
 	import Hero from "../components/Upload/ui/Hero.svelte";
 	import ListFiles from "../components/Upload/ui/ListFiles.svelte";
 </script>
@@ -16,4 +32,6 @@
 		<Hero />
 		<ListFiles />
 	</div>
-</section>
+</section> -->
+
+<Login />
