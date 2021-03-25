@@ -25,7 +25,7 @@
     <nav
       class="flex flex-wrap items-center justify-center text-base md:ml-auto"
     >
-      <a href="/" class="mr-5 hover:text-gray-900">First Link</a>
+      <a href="/dashboard/users" class="mr-5 hover:text-gray-900">Usuarios</a>
       <a href="/" class="mr-5 hover:text-gray-900">Second Link</a>
       <a href="/" class="mr-5 hover:text-gray-900">Third Link</a>
       <a href="/" class="mr-5 hover:text-gray-900">Fourth Link</a>

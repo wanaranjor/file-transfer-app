@@ -70,10 +70,10 @@ export const getResources = async () => {
     // const headers = createHeaders();
     // headers['Authorization'] = `Bearer ${token}`;
     const url = `${API_URL}/resources?filter[order]=createdAt DESC`;
-    const response = await axios.get(url);
-    return response.data;
+    const { data } = await axios.get(url);
+    return (data.length > 0) ? data : [];
   } catch (error) {
-    console.error('addResource:', error);
+    console.error('getResources:', error);
     return error;
   }
 }
