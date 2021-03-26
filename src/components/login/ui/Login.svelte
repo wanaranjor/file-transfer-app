@@ -9,21 +9,19 @@
 
   $: formIsValid = isValidEmail(email) && isEmpty(password);
 
-  // const handleSubmit = async () => {
-  //   const response = await loginUser(email, password);
-  //   if (!response.error) {
-  //     window.location.href = "/dashboard";
-  //   } else {
-  //     notifier.danger(
-  //       `Usuario o contraseña invalidos. Intente nuevamente.`,
-  //       5000
-  //     );
-  //     email = "";
-  //     password = "";
-  //   }
-  // };
-
-  const handleSubmit = async () => (window.location.href = "/dashboard");
+  const handleSubmit = async () => {
+    const response = await loginUser(email, password);
+    if (!response.error) {
+      window.location.href = "/dashboard";
+    } else {
+      notifier.danger(
+        `Usuario o contraseña invalidos. Intente nuevamente.`,
+        5000
+      );
+      email = "";
+      password = "";
+    }
+  };
 </script>
 
 <NotificationDisplay />

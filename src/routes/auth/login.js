@@ -13,9 +13,9 @@ export const createHeaders = () => {
 export const post = async (req, res) => {
   try {
     const headers = createHeaders();
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const response = await axios.post(`${API_URL}/login`, {
-      username,
+      email,
       password
     }, { headers });
     req.session.user = {

@@ -9,12 +9,12 @@ export const createHeaders = () => {
   return headers;
 }
 
-export const loginUser = async (username, password) => {
+export const loginUser = async (email, password) => {
   try {
     const headers = createHeaders();
     const url = "auth/login";
     const response = await axios.post(url, {
-      username: username.trim(),
+      email: email.trim(),
       password: password,
     }, { headers });
     return response.data;
