@@ -1,4 +1,5 @@
 <script>
+  import Spinner from "./../../shared/ui/Spinner.svelte";
   import { dateTimeAmPm } from "../../../helpers/datetime.js";
   import DocumentDownload24 from "carbon-icons-svelte/lib/DocumentDownload24";
   import CopyFile24 from "carbon-icons-svelte/lib/CopyFile24";
@@ -16,40 +17,44 @@
     <h1 class="text-2xl font-semibold text-left text-gray-700">
       Archivos transferidos
     </h1>
-    <span class="p-1 text-sm font-semibold text-white bg-blue-700"
+    <span class="px-2 text-sm font-semibold text-white bg-blue-700 rounded-full"
       >{listFiles.length}</span
     >
   </div>
   <div
     class="w-full px-5 mx-auto overflow-auto md:max-h-sm xl:max-h-lg 2xl:max-h-2xl "
   >
-    <table class="w-full text-left whitespace-no-wrap table-auto">
-      <thead>
-        <tr class="text-center">
-          <th
-            class="px-2 py-3 text-sm font-semibold tracking-wider text-left text-gray-900 bg-gray-100 rounded-tl rounded-bl"
-            >Nombre</th
-          >
-          <th
-            class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
-            >Tamaño</th
-          >
-          <th
-            class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
-            >Fecha</th
-          >
-          <th
-            class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
-            >Usuario</th
-          >
-          <th
-            class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100 rounded-tr rounded-br"
-            >Descarga</th
-          >
-        </tr>
-      </thead>
-      <tbody class="text-sm">
-        {#if listFiles}
+    {#if listFiles.length === 0}
+      <div class="flex justify-center">
+        <Spinner />
+      </div>
+    {:else}
+      <table class="w-full text-left whitespace-no-wrap table-auto">
+        <thead>
+          <tr class="text-center">
+            <th
+              class="px-2 py-3 text-sm font-semibold tracking-wider text-left text-gray-900 bg-gray-100 rounded-tl rounded-bl"
+              >Nombre</th
+            >
+            <th
+              class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
+              >Tamaño</th
+            >
+            <th
+              class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
+              >Fecha</th
+            >
+            <th
+              class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
+              >Usuario</th
+            >
+            <th
+              class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100 rounded-tr rounded-br"
+              >Descarga</th
+            >
+          </tr>
+        </thead>
+        <tbody class="text-sm">
           {#each listFiles as file}
             <tr>
               <td class="px-4 py-2">
@@ -71,9 +76,9 @@
               </td>
             </tr>
           {/each}
-        {/if}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    {/if}
   </div>
   <!-- <div class="flex w-full pl-4 mx-auto mt-4 ">
     <a href="/" class="inline-flex items-center text-indigo-500 md:mb-2 lg:mb-0"
