@@ -61,6 +61,7 @@
               <td class="px-4 py-2">
                 {dateTimeAmPm(file.createdAt)}
               </td>
+              <!-- TODO: sacar nombre de usuario del Store Global -->
               <td class="px-4 py-2"> Wilson Andrés Naranjo Romero </td>
               <td class="flex justify-center px-4 py-2">
                 <a

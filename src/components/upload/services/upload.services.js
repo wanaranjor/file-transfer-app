@@ -2,7 +2,6 @@ import axios from "axios";
 import { valueProgressBar } from "../stores/upload.storage"
 
 const API_URL = process.env.API_URL
-const URL_TELEM = process.env.URL_TELEM;
 
 export const createHeaders = () => {
   const headers = {
@@ -12,10 +11,10 @@ export const createHeaders = () => {
   return headers;
 }
 
-export const uploadFile = async (formData) => {
+export const uploadFile = async (formData, folder) => {
   try {
     const headers = createHeaders();
-    const url = `${API_URL}/${URL_TELEM}`;
+    const url = `${API_URL}/${folder.toLowerCase()}`;
     const response = await axios.post(url, formData, {
       headers,
       onUploadProgress(event) {
@@ -31,7 +30,7 @@ export const uploadFile = async (formData) => {
 }
 
 export const addResource = async (
-  fileName, fileType, fileSize, fileUrl
+  fileName, fileType, fileSize, fileUrl, areaId
 ) => {
   try {
     // const headers = createHeaders();
@@ -42,7 +41,7 @@ export const addResource = async (
       fileType,
       fileSize,
       fileUrl,
-      area: 'telem',
+      areaId,
       createdAt: new Date()
     });
     return response;

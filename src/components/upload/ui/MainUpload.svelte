@@ -8,7 +8,6 @@
 
   onMount(async () => {
     listFiles = await getResources();
-    console.log(listFiles);
   });
 
   const handleUpdate = async () => (listFiles = await getResources());

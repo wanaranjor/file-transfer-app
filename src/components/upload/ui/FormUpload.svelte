@@ -4,11 +4,15 @@
   import { uploadFile, addResource } from "../services/upload.services.js";
   import { valueProgressBar } from "../stores/upload.storage";
   import { NotificationDisplay, notifier } from "@beyonk/svelte-notifications";
+  import { userProfile } from "../../user/stores/userStore";
   import AddFilled32 from "carbon-icons-svelte/lib/AddFilled32";
   import DocumentTasks20 from "carbon-icons-svelte/lib/DocumentTasks20";
   import ChevronRight20 from "carbon-icons-svelte/lib/ChevronRight20";
 
   const dispatch = createEventDispatcher();
+
+  const areaId = $userProfile.areaId;
+  const folder = $userProfile.area.name;
 
   let file,
     message,
@@ -32,17 +36,13 @@
   const handleSubmit = async (event) => {
     if (formIsValid) {
       const formData = new FormData(event.target);
-      const response = await uploadFile(formData);
+      const response = await uploadFile(formData, folder);
       if (response.status === 200) {
         formIsValid = false;
         fileUrl = response.data.filename;
         console.log(fileName);
-        await addResource(fileName, fileType, fileSize, fileUrl);
+        await addResource(fileName, fileType, fileSize, fileUrl, areaId);
         dispatch("updateListFiles");
-
-        // viewDetailsFile = false;
-        // file = "";
-        // message = "";
         notifier.success(`Archivo envido correctamente`, 5000);
       } else {
         notifier.danger(
