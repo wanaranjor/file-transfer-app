@@ -25,9 +25,6 @@
   class="flex flex-wrap items-center justify-center text-base md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400"
 >
   <a href="/dashboard/users" class="mr-5 hover:text-gray-900">Usuarios</a>
-  <a href="/" class="mr-5 hover:text-gray-900">Second Link</a>
-  <a href="/" class="mr-5 hover:text-gray-900">Third Link</a>
-  <a href="/" class="mr-5 hover:text-gray-900">Fourth Link</a>
 </nav>
 
 <div class="flex flex-row items-center space-x-3">
