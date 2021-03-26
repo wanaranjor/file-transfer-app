@@ -1,5 +1,5 @@
 <script>
-  import Signup from "../../components/user/ui/Signup.svelte";
+  import MainUser from "../../components/user/ui/MainUser.svelte";
 </script>
 
-<Signup />
+<MainUser />
