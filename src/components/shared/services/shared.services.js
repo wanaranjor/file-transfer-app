@@ -13,7 +13,7 @@ export const createHeaders = () => {
 export const getInfoModel = async (model, token) => {
   try {
     const headers = createHeaders();
-    // headers['Authorization'] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token}`;
     const url = `${API_URL}/${model}`;
     const { data } = await axios.get(url, { headers });
     return (data.length > 0) ? data : [];
