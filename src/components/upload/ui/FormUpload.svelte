@@ -14,6 +14,7 @@
   const areaId = $userProfile.areaId;
   const folder = $userProfile.area.name;
 
+  let formData = null;
   let file,
     message,
     fileName,
@@ -26,11 +27,23 @@
 
   const handleChange = (event) => {
     viewDetailsFile = true;
-    const formData = new FormData(event.target.form);
+    formData = new FormData(event.target.form);
     const { name, type, size } = formData.get("file");
     fileName = name;
     fileType = type;
     fileSize = size;
+  };
+
+  const handleClean = () => {
+    formData = null;
+    formIsValid = false;
+    viewDetailsFile = false;
+    file = "";
+    message = "";
+    fileName = "";
+    fileType = "";
+    fileUrl = "";
+    fileSize = 0;
   };
 
   const handleSubmit = async (event) => {
@@ -43,8 +56,9 @@
         console.log(fileName);
         await addResource(fileName, fileType, fileSize, fileUrl, areaId);
         dispatch("updateListFiles");
-        notifier.success(`Archivo envido correctamente`, 5000);
+        notifier.success(`Archivo enviado correctamente`, 5000);
       } else {
+        valueProgressBar.set(0);
         notifier.danger(
           `Error [${response.statusCode}]: ${response.message} - El tipo de archivo no se puede transmitir, verifique nuevamente.`,
           5000
@@ -102,13 +116,16 @@
       rows="3"
       bind:value={message}
       class="input-form"
-      required
     />
   </div>
   <div class="flex flex-col py-2">
-    <progress value={$valueProgressBar} max="100" class="my-3" />
-    <span>{$valueProgressBar}%</span>
-    <div class="flex flex-row space-x-3">
+    {#if $valueProgressBar > 0}
+      <div clas="flex flex-col">
+        <p class="text-right label-form">{$valueProgressBar} %</p>
+        <progress value={$valueProgressBar} max="100" class="w-full" />
+      </div>
+    {/if}
+    <div class="flex flex-row justify-between space-x-3">
       <button
         class={formIsValid
           ? "btn mt-4"
@@ -116,7 +133,7 @@
         disabled={!formIsValid}
         type="submit">Enviar</button
       >
-      <button class="mt-4 btn" type="submit">Limpiar</button>
+      <button class="mt-4 btn-gray" on:click={handleClean}>Limpiar</button>
     </div>
   </div>
 </form>
