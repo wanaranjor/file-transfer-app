@@ -12,7 +12,8 @@
   >
     <UserMultiple24 />
     <h1 class="text-2xl font-semibold text-left text-gray-700">Usuarios</h1>
-    <span class="p-1 text-sm font-semibold text-white bg-blue-700"
+    <span
+      class="px-2 text-sm font-semibold text-white bg-blue-700 rounded-full "
       >{listUsers.length}</span
     >
   </div>
@@ -24,7 +25,7 @@
         <tr class="text-center">
           <th
             class="px-2 py-3 text-sm font-semibold tracking-wider text-left text-gray-900 bg-gray-100 rounded-tl rounded-bl"
-            >Usuario</th
+            >Carpeta</th
           >
           <th
             class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
@@ -36,7 +37,7 @@
           >
           <th
             class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
-            >Área</th
+            >Usuario red</th
           >
         </tr>
       </thead>
@@ -44,16 +45,17 @@
         {#if listUsers}
           {#each listUsers as user}
             <tr>
-              <td class="px-4 py-2">
-                {user.username}
-              </td>
+              <td class="px-4 py-2"> {user.area.name} </td>
+
               <td class="px-4 py-2">
                 {user.responsable}
               </td>
               <td class="px-4 py-2">
                 {user.email}
               </td>
-              <td class="px-4 py-2"> {user.area.name} </td>
+              <td class="px-4 py-2">
+                {user.username}
+              </td>
             </tr>
           {/each}
         {/if}

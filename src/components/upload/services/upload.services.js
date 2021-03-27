@@ -6,14 +6,23 @@ const API_URL = process.env.API_URL
 export const createHeaders = () => {
   const headers = {
     'accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
+  return headers;
+}
+
+export const createHeadersUpload = () => {
+  const headers = {
+    'accept': 'application/json',
     'Content-Type': 'multipart/form-data'
   }
   return headers;
 }
 
-export const uploadFile = async (formData, folder) => {
+export const uploadFile = async (formData, folder, token) => {
   try {
-    const headers = createHeaders();
+    const headers = createHeadersUpload();
+    headers['Authorization'] = `Bearer ${token}`;
     const url = `${API_URL}/${folder.toLowerCase()}`;
     const response = await axios.post(url, formData, {
       headers,
@@ -30,20 +39,21 @@ export const uploadFile = async (formData, folder) => {
 }
 
 export const addResource = async (
-  fileName, fileType, fileSize, fileUrl, areaId
+  fileName, fileType, fileSize, fileUrl, userId, areaId, token
 ) => {
   try {
-    // const headers = createHeaders();
-    // headers['Authorization'] = `Bearer ${token}`;
+    const headers = createHeaders();
+    headers['Authorization'] = `Bearer ${token}`;
     const url = `${API_URL}/resources`;
     const response = await axios.post(url, {
       fileName,
       fileType,
       fileSize,
       fileUrl,
+      userId,
       areaId,
       createdAt: new Date()
-    });
+    }, { headers });
     return response;
   } catch (error) {
     console.error('addResource:', error);
@@ -51,28 +61,19 @@ export const addResource = async (
   }
 }
 
-export const getFilesType = async (area) => {
+export const getResources = async (areaId, token) => {
   try {
-    // const headers = createHeaders();
-    // headers['Authorization'] = `Bearer ${token}`;
-    const url = `${API_URL}/files/${area}`;
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    console.error('addResource:', error);
-    return error;
-  }
-}
-
-export const getResources = async () => {
-  try {
-    // const headers = createHeaders();
-    // headers['Authorization'] = `Bearer ${token}`;
-    const url = `${API_URL}/resources?filter[order]=createdAt DESC`;
-    const { data } = await axios.get(url);
+    const headers = createHeaders();
+    headers['Authorization'] = `Bearer ${token}`;
+    const url = `${API_URL}/areas/${areaId}/resources?&filter={ "include": ["user"] }& filter={ "order" = ["createdAt DESC"] }`
+    const { data } = await axios.get(url, { headers });
+    console.log(data);
     return (data.length > 0) ? data : [];
   } catch (error) {
     console.error('getResources:', error);
     return error;
   }
 }
+
+// const url = `${API_URL}/reszurces?filter{"where": {"areaId": ${areaId}}}&filter{ "include": ["user"] }`;
+// & filter={ "include": ["user"] }& filter={ "order" = ["createdAt DESC"] }

@@ -1,10 +1,14 @@
 <script>
+  import { stores } from "@sapper/app";
   // import { addUser } from "../services/signup.services";
   import { isEmpty, isValidEmail } from "../../../helpers/validators";
   import { NotificationDisplay, notifier } from "@beyonk/svelte-notifications";
   import { getInfoModel } from "../../shared/services/shared.services";
   import { onMount } from "svelte";
   import { addUser } from "../services/user.services";
+
+  const { session } = stores();
+  const { token } = $session.user.data;
 
   const MODEL = process.env.MODEL_AREA;
 
@@ -16,7 +20,7 @@
     password = "";
 
   onMount(async () => {
-    areas = await getInfoModel(MODEL);
+    areas = await getInfoModel(MODEL, token);
   });
 
   $: formIsValid =
@@ -33,7 +37,8 @@
         areaId,
         responsable,
         email,
-        password
+        password,
+        token
       );
       if (result === 200) {
         formIsValid = false;

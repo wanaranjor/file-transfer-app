@@ -3,7 +3,6 @@
   import { userProfile } from "../../user/stores/userStore";
   import Logout24 from "carbon-icons-svelte/lib/Logout24";
   import User32 from "carbon-icons-svelte/lib/User32";
-  import FolderAdd24 from "carbon-icons-svelte/lib/FolderAdd24";
 
   const { session } = stores();
 
@@ -24,18 +23,18 @@
 <nav
   class="flex flex-wrap items-center justify-center text-base md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400"
 >
-  <a href="/dashboard/users" class="mr-5 hover:text-gray-900">Usuarios</a>
+  {#if $userProfile.role === "admin"}
+    <a href="/dashboard/users" class="mr-5 hover:text-gray-900">Usuarios</a>
+  {/if}
 </nav>
 
 <div class="flex flex-row items-center space-x-3">
   <User32 />
   <p>{$userProfile.responsable}</p>
-  <FolderAdd24 />
-  <p>{$userProfile.area.name}</p>
 </div>
 
 <button
-  class="inline-flex items-center px-3 py-1 mt-4 space-x-1 text-base text-gray-600 bg-gray-100 border-0 rounded focus:outline-none hover:bg-gray-200 md:mt-0"
+  class="inline-flex items-center px-3 py-1 mt-4 space-x-1 text-base text-gray-600 bg-gray-100 border-0 rounded md:mt-0"
   on:click={handleLogout}
 >
   <Logout24 />

@@ -11,31 +11,27 @@ const createHeaders = () => {
   return headers;
 }
 
-export const decodeToken = (token) => {
-  const decoded = jwt_decode(token);
-  return decoded;
-}
-
 export const addUser = async (
   username,
   areaId,
   responsable,
   email,
   password,
+  token
 ) => {
   try {
     const headers = createHeaders();
-    // headers['Authorization'] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token}`;
     const url = `${API_URL}/${URL_USER}`;
     const response = await axios.post(url, {
       username,
       areaId,
       responsable,
       email,
+      role: "user",
       password,
       createdAt: new Date()
     }, { headers });
-    console.log(response.status);
     return response.status;
   } catch (error) {
     console.error('addUser:', error);

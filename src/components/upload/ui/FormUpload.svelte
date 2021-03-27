@@ -1,4 +1,5 @@
 <script>
+  import { stores } from "@sapper/app";
   import { createEventDispatcher } from "svelte";
   import { isEmpty } from "../../../helpers/validators";
   import { uploadFile, addResource } from "../services/upload.services.js";
@@ -9,10 +10,14 @@
   import DocumentTasks20 from "carbon-icons-svelte/lib/DocumentTasks20";
   import ChevronRight20 from "carbon-icons-svelte/lib/ChevronRight20";
 
+  const { session } = stores();
+  const { token } = $session.user.data;
+
   const dispatch = createEventDispatcher();
 
   const areaId = $userProfile.areaId;
   const folder = $userProfile.area.name;
+  const userId = $userProfile.id;
 
   let formData = null;
   let file,
@@ -49,12 +54,19 @@
   const handleSubmit = async (event) => {
     if (formIsValid) {
       const formData = new FormData(event.target);
-      const response = await uploadFile(formData, folder);
+      const response = await uploadFile(formData, folder, token);
       if (response.status === 200) {
         formIsValid = false;
         fileUrl = response.data.filename;
-        console.log(fileName);
-        await addResource(fileName, fileType, fileSize, fileUrl, areaId);
+        await addResource(
+          fileName,
+          fileType,
+          fileSize,
+          fileUrl,
+          userId,
+          areaId,
+          token
+        );
         dispatch("updateListFiles");
         notifier.success(`Archivo enviado correctamente`, 5000);
       } else {

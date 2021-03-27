@@ -34,14 +34,14 @@
   <div
     class="flex items-center justify-center w-full h-screen px-6 bg-blue-1300 md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 lg:px-16 xl:px-12"
   >
-    <div class="w-full h-100">
-      <!-- <img src="logo.webp" alt="logo" /> -->
+    <div class="flex flex-col items-center w-full h-100">
+      <img src="logo.webp" alt="logo" class="w-3/4" />
       <h1
         class="mt-12 text-2xl font-semibold tracking-tighter text-center text-gray-900 sm:text-3xl"
       >
         {titleApp}
       </h1>
-      <form class="mt-6" on:submit|preventDefault={handleSubmit}>
+      <form class="w-full mt-6" on:submit|preventDefault={handleSubmit}>
         <div>
           <label
             class="block font-medium leading-relaxed tracking-tighter text-gray-700 text-md"

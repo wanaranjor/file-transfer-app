@@ -1,10 +1,24 @@
 <script>
+  import { stores } from "@sapper/app";
   import Spinner from "./../../shared/ui/Spinner.svelte";
   import { dateTimeAmPm } from "../../../helpers/datetime.js";
   import DocumentDownload24 from "carbon-icons-svelte/lib/DocumentDownload24";
-  import CopyFile24 from "carbon-icons-svelte/lib/CopyFile24";
+  import { userProfile } from "../../../components/user/stores/userStore.js";
+  import { getResourceById } from "../../download/services/download.services.js";
+  import FolderAdd24 from "carbon-icons-svelte/lib/FolderAdd24";
 
   export let listFiles;
+
+  const { session } = stores();
+  const { token } = $session.user.data;
+  const folder = $userProfile.area.name;
+
+  const API_URL = process.env.API_URL;
+
+  const handleDownload = async (fileName) => {
+    const response = await getResourceById(fileName, folder, token);
+    console.log(response);
+  };
 </script>
 
 <section
@@ -13,20 +27,21 @@
   <div
     class="flex flex-row items-center w-full px-5 mb-3 space-x-3 text-center"
   >
-    <CopyFile24 />
-    <h1 class="text-2xl font-semibold text-left text-gray-700">
-      Archivos transferidos
+    <FolderAdd24 />
+    <h1 class="text-xl font-semibold text-left text-gray-700">
+      {$userProfile.area.name}
     </h1>
     <span class="px-2 text-sm font-semibold text-white bg-blue-700 rounded-full"
-      >{listFiles.length}</span
+      >{listFiles.length > 0 ? listFiles.length : 0}</span
     >
   </div>
   <div
     class="w-full px-5 mx-auto overflow-auto md:max-h-sm xl:max-h-lg 2xl:max-h-2xl "
   >
     {#if listFiles.length === 0}
-      <div class="flex justify-center">
+      <div class="flex flex-col justify-center text-center">
         <Spinner />
+        <p>No existen archivos para esta consulta.</p>
       </div>
     {:else}
       <table class="w-full text-left whitespace-no-wrap table-auto">
@@ -66,13 +81,17 @@
               <td class="px-4 py-2">
                 {dateTimeAmPm(file.createdAt)}
               </td>
-              <!-- TODO: sacar nombre de usuario del Store Global -->
-              <td class="px-4 py-2"> Wilson Andrés Naranjo Romero </td>
+              <td class="px-4 py-2"> {file.user.responsable} </td>
               <td class="flex justify-center px-4 py-2">
                 <a
-                  href="http://localhost:3001/files/telem/{file.fileUrl}"
+                  href="{API_URL}/files/{$userProfile.area.name}/{file.fileUrl}"
                   class="text-center "><DocumentDownload24 /></a
                 >
+                <button
+                  on:click={handleDownload(file.fileUrl)}
+                  class="text-center "
+                  ><DocumentDownload24 />
+                </button>
               </td>
             </tr>
           {/each}
