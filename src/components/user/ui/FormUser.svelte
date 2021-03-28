@@ -1,14 +1,15 @@
 <script>
-  import { stores } from "@sapper/app";
-  // import { addUser } from "../services/signup.services";
-  import { isEmpty, isValidEmail } from "../../../helpers/validators";
   import { NotificationDisplay, notifier } from "@beyonk/svelte-notifications";
+  import { stores } from "@sapper/app";
+  import { createEventDispatcher, onMount } from "svelte";
+  import { isEmpty, isValidEmail } from "../../../helpers/validators";
   import { getInfoModel } from "../../shared/services/shared.services";
-  import { onMount } from "svelte";
   import { addUser } from "../services/user.services";
 
   const { session } = stores();
   const { token } = $session.user.data;
+
+  const dispatch = createEventDispatcher();
 
   const MODEL = process.env.MODEL_AREA;
 
@@ -42,10 +43,8 @@
       );
       if (result === 200) {
         formIsValid = false;
-        notifier.success(
-          `Registro creado correctamente. Pulse en Ingresar para terminar su proceso de registro.`,
-          7000
-        );
+        dispatch("updateListUsers");
+        notifier.success(`Registro creado correctamente.`, 7000);
         username = "";
         areaId = "";
         responsable = "";

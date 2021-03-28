@@ -43,7 +43,7 @@ export const getUsers = async (model, token) => {
   try {
     const headers = createHeaders();
     headers['Authorization'] = `Bearer ${token}`;
-    const url = `${API_URL}/${model}?filter={"include":["area"]}`;
+    const url = `${API_URL}/${model}?filter={"include":["area"], "order":["createdAt DESC"]}`;
     const { data } = await axios.get(url, { headers });
     return (data.length > 0) ? data : [];
   } catch (error) {

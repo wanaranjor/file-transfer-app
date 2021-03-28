@@ -1,13 +1,11 @@
 <script>
-  import { stores, goto } from "@sapper/app";
-  import { userProfile } from "../../user/stores/userStore";
+  import { goto, stores } from "@sapper/app";
   import Logout24 from "carbon-icons-svelte/lib/Logout24";
   import User32 from "carbon-icons-svelte/lib/User32";
+  import { logoutUser } from "../../login/services/login.services";
+  import { userProfile } from "../../user/stores/userStore";
 
   const { session } = stores();
-
-  import { logoutUser } from "../../login/services/login.services";
-
   const handleLogout = async () => {
     const result = await logoutUser();
     if (result.status === 200) {

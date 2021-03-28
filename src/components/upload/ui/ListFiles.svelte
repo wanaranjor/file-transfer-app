@@ -1,12 +1,12 @@
 <script>
   import { stores } from "@sapper/app";
-  import { createEventDispatcher } from "svelte";
-  import Spinner from "./../../shared/ui/Spinner.svelte";
-  import { dateTimeAmPm } from "../../../helpers/datetime.js";
-  import SettingsCheck24 from "carbon-icons-svelte/lib/SettingsCheck24";
-  import { userProfile } from "../../../components/user/stores/userStore.js";
-  import { getResourceById } from "../../download/services/download.services.js";
   import FolderAdd24 from "carbon-icons-svelte/lib/FolderAdd24";
+  import SettingsCheck24 from "carbon-icons-svelte/lib/SettingsCheck24";
+  import { createEventDispatcher } from "svelte";
+  import { userProfile } from "../../../components/user/stores/userStore.js";
+  import { dateTimeAmPm, dateTimeNowAmPm } from "../../../helpers/datetime.js";
+  import { getResourceById } from "../../download/services/download.services.js";
+  import Spinner from "./../../shared/ui/Spinner.svelte";
 
   export let listFiles;
   const dispatch = createEventDispatcher();
@@ -26,15 +26,19 @@
   class="px-3 my-3 text-gray-600 bg-white border rounded-lg shadow-xl py-7"
 >
   <div
-    class="flex flex-row items-center w-full px-5 mb-3 space-x-3 text-center"
+    class="flex flex-row items-center justify-between w-full px-5 mb-3 text-center"
   >
-    <FolderAdd24 />
-    <h1 class="text-xl font-semibold text-left text-gray-700">
-      {$userProfile.area.name}
-    </h1>
-    <span class="px-2 text-sm font-semibold text-white bg-blue-700 rounded-full"
-      >{listFiles.length > 0 ? listFiles.length : 0}</span
-    >
+    <div class="flex flex-row items-center space-x-3">
+      <FolderAdd24 />
+      <h1 class="text-xl font-semibold text-left text-gray-700">
+        {$userProfile.area.name}
+      </h1>
+      <span
+        class="px-2 text-sm font-semibold text-white bg-blue-700 rounded-full"
+        >{listFiles.length > 0 ? listFiles.length : 0}</span
+      >
+    </div>
+    <span class="px-3 leading-tight">{dateTimeNowAmPm()}</span>
   </div>
   <div
     class="w-full px-5 mx-auto overflow-auto md:max-h-sm xl:max-h-lg 2xl:max-h-2xl "

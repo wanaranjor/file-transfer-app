@@ -1,7 +1,6 @@
 <script>
-  import { dateTimeAmPm } from "../../../helpers/datetime.js";
-
   import UserMultiple24 from "carbon-icons-svelte/lib/UserMultiple24";
+  import { dateTimeAmPm } from "../../../helpers/datetime.js";
 
   export let listUsers;
 </script>
@@ -22,7 +21,7 @@
   >
     <table class="w-full text-left whitespace-no-wrap table-auto">
       <thead>
-        <tr class="text-center">
+        <tr class="">
           <th
             class="px-2 py-3 text-sm font-semibold tracking-wider text-left text-gray-900 bg-gray-100 rounded-tl rounded-bl"
             >Carpeta</th
@@ -38,6 +37,10 @@
           <th
             class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
             >Usuario red</th
+          >
+          <th
+            class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
+            >Creación</th
           >
         </tr>
       </thead>
@@ -55,6 +58,9 @@
               </td>
               <td class="px-4 py-2">
                 {user.username}
+              </td>
+              <td class="px-4 py-2">
+                {dateTimeAmPm(user.createdAt)}
               </td>
             </tr>
           {/each}

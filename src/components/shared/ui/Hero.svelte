@@ -1,3 +1,7 @@
+<script>
+  import { infoProfile } from "../../shared/stores/shared.storage";
+</script>
+
 <div
   class="container flex flex-col items-center justify-center px-5 mx-auto text-gray-600"
 >
@@ -8,11 +12,10 @@
   />
   <div class="w-full text-center lg:w-2/3">
     <h1 class="mb-4 text-3xl font-medium text-gray-900 sm:text-4xl">
-      Transferencia de Archivos
+      {$infoProfile.titleHome}
     </h1>
     <p class="mb-8 leading-relaxed">
-      Servicio para la transferencia de archivos. Permite archivos de texto,
-      imagenes, videos. El tamaño máximo permitido por archivo es de 200Mb.
+      {$infoProfile.textHome}
     </p>
   </div>
 </div>

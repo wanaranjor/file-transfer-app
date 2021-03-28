@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = process.env.API_URL
+const API_URL = process.env.API_URL;
+const MODEL_PROFILE = process.env.MODEL_PROFILE;
 
 export const createHeaders = () => {
   const headers = {
@@ -23,31 +24,16 @@ export const getInfoModel = async (model, token) => {
   }
 }
 
-
-// export const getUserById = async (userId, token) => {
-//   try {
-//     const headers = createHeaders();
-//     headers['Authorization'] = `Bearer ${token}`;
-//     const url = `${API_URL}/users/${userId}`;
-//     const { data } = await axios.get(url, { headers });
-//     return data;
-//   } catch (error) {
-//     console.error(`getUserById:`, error);
-//     return error;
-//   }
-// }
-
-// export const countInfoModelById = async (userId, model, token) => {
-//   try {
-//     const headers = createHeaders();
-//     headers['Authorization'] = `Bearer ${token}`;
-//     const url = `${API_URL}/${model}/count?filter={"where":{"userId":"${userId}"}}`;
-//     const { data } = await axios.get(url, { headers });
-//     return data.count;
-//   } catch (error) {
-//     console.error(`${model}-> countInfoModelById:`, error);
-//     return error;
-//   }
-// }
+export const getProfile = async () => {
+  try {
+    const headers = createHeaders();
+    const url = `${API_URL}/${MODEL_PROFILE}`;
+    const { data } = await axios.get(url, { headers });
+    return (data.length > 0) ? data[0] : [];
+  } catch (error) {
+    console.error(`getProfile:`, error);
+    return error;
+  }
+}
 
 

@@ -1,9 +1,10 @@
 <script>
+  import { NotificationDisplay, notifier } from "@beyonk/svelte-notifications";
+  import { infoProfile } from "../../shared/stores/shared.storage";
+  import Hero from "../../shared/ui/Hero.svelte";
   import { loginUser } from "../services/login.services";
   import { isEmpty, isValidEmail } from "./../../../helpers/validators";
-  import { NotificationDisplay, notifier } from "@beyonk/svelte-notifications";
-  import Hero from "../../shared/ui/Hero.svelte";
-  const titleApp = process.env.TITLE_APP;
+
   let email,
     password = "";
 
@@ -39,7 +40,7 @@
       <h1
         class="mt-12 text-2xl font-semibold tracking-tighter text-center text-gray-900 sm:text-3xl"
       >
-        {titleApp}
+        {$infoProfile.titleApp}
       </h1>
       <form class="w-full mt-6" on:submit|preventDefault={handleSubmit}>
         <div>

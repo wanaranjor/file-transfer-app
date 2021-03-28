@@ -1,15 +1,29 @@
 <script>
-  import { dateTimeAmPm } from "../../../helpers/datetime.js";
-  import DocumentTasks20 from "carbon-icons-svelte/lib/DocumentTasks20";
-  import ChevronRight20 from "carbon-icons-svelte/lib/ChevronRight20";
   import Calendar20 from "carbon-icons-svelte/lib/Calendar20";
+  import ChevronRight20 from "carbon-icons-svelte/lib/ChevronRight20";
+  import CloseFilled24 from "carbon-icons-svelte/lib/CloseFilled24";
+  import DocumentTasks20 from "carbon-icons-svelte/lib/DocumentTasks20";
   import User20 from "carbon-icons-svelte/lib/User20";
+  import { createEventDispatcher } from "svelte";
+  import { dateTimeAmPm } from "../../../helpers/datetime.js";
 
   export let urlDownloadFile;
   export let file;
+  const dispatch = createEventDispatcher();
+
+  const handleClose = () => {
+    dispatch("closeDownload");
+  };
 </script>
 
 <div class="flex flex-col p-5 my-3 bg-white border rounded-lg shadow-xl">
+  <div class="flex justify-end">
+    <button
+      on:click={handleClose}
+      class="text-sm font-semibold text-right text-blue-700 rounded-full"
+      ><CloseFilled24 /></button
+    >
+  </div>
   <div class="flex flex-col p-3 my-3 text-gray-700 border rounded-lg">
     <div class="flex flex-row items-center py-2 space-x-3">
       <DocumentTasks20 />
