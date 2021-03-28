@@ -23,7 +23,7 @@ export const uploadFile = async (formData, folder, token) => {
   try {
     const headers = createHeadersUpload();
     headers['Authorization'] = `Bearer ${token}`;
-    const url = `${API_URL}/${folder.toLowerCase()}`;
+    const url = `${API_URL}/upload/${folder}`;
     const response = await axios.post(url, formData, {
       headers,
       onUploadProgress(event) {
@@ -39,7 +39,7 @@ export const uploadFile = async (formData, folder, token) => {
 }
 
 export const addResource = async (
-  fileName, fileType, fileSize, fileUrl, userId, areaId, token
+  fileName, fileType, fileSize, fileUrl, message, userId, areaId, token
 ) => {
   try {
     const headers = createHeaders();
@@ -50,6 +50,7 @@ export const addResource = async (
       fileType,
       fileSize,
       fileUrl,
+      message,
       userId,
       areaId,
       createdAt: new Date()
@@ -65,15 +66,11 @@ export const getResources = async (areaId, token) => {
   try {
     const headers = createHeaders();
     headers['Authorization'] = `Bearer ${token}`;
-    const url = `${API_URL}/areas/${areaId}/resources?&filter={ "include": ["user"] }& filter={ "order" = ["createdAt DESC"] }`
+    const url = `${API_URL}/resources?filter[include][]=user&filter[where][areaId]=${areaId}&filter[order]=createdAt%20DESC`;
     const { data } = await axios.get(url, { headers });
-    console.log(data);
     return (data.length > 0) ? data : [];
   } catch (error) {
     console.error('getResources:', error);
     return error;
   }
 }
-
-// const url = `${API_URL}/reszurces?filter{"where": {"areaId": ${areaId}}}&filter{ "include": ["user"] }`;
-// & filter={ "include": ["user"] }& filter={ "order" = ["createdAt DESC"] }

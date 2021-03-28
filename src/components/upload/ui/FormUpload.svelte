@@ -28,7 +28,7 @@
   let fileSize = 0;
   let viewDetailsFile = false;
 
-  $: formIsValid = isEmpty(file) && isEmpty(message);
+  $: formIsValid = isEmpty(file);
 
   const handleChange = (event) => {
     viewDetailsFile = true;
@@ -49,6 +49,7 @@
     fileType = "";
     fileUrl = "";
     fileSize = 0;
+    valueProgressBar.set(0);
   };
 
   const handleSubmit = async (event) => {
@@ -63,6 +64,7 @@
           fileType,
           fileSize,
           fileUrl,
+          message,
           userId,
           areaId,
           token
@@ -122,7 +124,7 @@
     </div>
   {/if}
   <div class="py-2">
-    <label class="label-form" for="email">Mensaje </label>
+    <label class="label-form" for="message">Mensaje </label>
     <textarea
       type="textarea"
       rows="3"

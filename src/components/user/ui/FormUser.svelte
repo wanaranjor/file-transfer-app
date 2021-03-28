@@ -72,7 +72,7 @@
 >
   <div class="flex flex-col">
     <div class="w-full mb-4">
-      <label class="label-form" for="username">1. Usuario </label>
+      <label class="label-form" for="username">1. Usuario de red </label>
       <input type="text" bind:value={username} class="input-form" required />
     </div>
     <div class="w-full mb-4">

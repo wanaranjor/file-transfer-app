@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import { userProfile } from "../../user/stores/userStore";
   import { getResources } from "../services/upload.services.js";
+  import DownloadFile from "./DownloadFile.svelte";
   import FormUpload from "./FormUpload.svelte";
   import ListFiles from "./ListFiles.svelte";
 
@@ -11,20 +12,32 @@
 
   let listFiles = [];
   let areadId = $userProfile.areaId;
+  let viewDownload = false;
+  let urlDownloadFile,
+    file = "";
 
   onMount(async () => {
     listFiles = await getResources(areadId, token);
   });
 
+  const handleDownload = (event) => {
+    viewDownload = true;
+    urlDownloadFile = event.detail.linkDownload;
+    file = event.detail.file;
+  };
+
   const handleUpdate = async () =>
     (listFiles = await getResources(areadId, token));
 </script>
 
-<section class="flex flex-row items-center px-5 mx-auto space-x-5">
-  <div class="w-full md:w-1/4">
+<section class="flex flex-row items-start px-5 mx-auto space-x-5">
+  <div class="flex flex-col w-full md:w-1/4">
+    {#if viewDownload}
+      <DownloadFile {urlDownloadFile} {file} />
+    {/if}
     <FormUpload on:updateListFiles={handleUpdate} />
   </div>
   <div class="md:w-3/4">
-    <ListFiles {listFiles} />
+    <ListFiles {listFiles} on:blobFile={handleDownload} />
   </div>
 </section>

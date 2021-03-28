@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const API_URL = process.env.API_URL
 
 export const createHeaders = () => {
@@ -16,12 +15,14 @@ export const getResourceById = async (fileName, folder, token) => {
   try {
     const headers = createHeaders();
     headers['Authorization'] = `Bearer ${token}`;
-    const url = `${API_URL}/files/${folder}/${fileName}`
-    const { data } = await axios.get(url, { headers });
-    console.log(data);
-    return (data.length > 0) ? data : [];
+    const url = `${API_URL}/files/${folder}/${fileName}`;
+    const response = await axios.get(url, {
+      headers,
+      responseType: 'blob'
+    });
+    return response;
   } catch (error) {
-    console.error('getResources:', error);
+    console.error('getResourceById:', error);
     return error;
   }
 }

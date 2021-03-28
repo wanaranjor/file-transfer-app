@@ -1,23 +1,24 @@
 <script>
   import { stores } from "@sapper/app";
+  import { createEventDispatcher } from "svelte";
   import Spinner from "./../../shared/ui/Spinner.svelte";
   import { dateTimeAmPm } from "../../../helpers/datetime.js";
-  import DocumentDownload24 from "carbon-icons-svelte/lib/DocumentDownload24";
+  import SettingsCheck24 from "carbon-icons-svelte/lib/SettingsCheck24";
   import { userProfile } from "../../../components/user/stores/userStore.js";
   import { getResourceById } from "../../download/services/download.services.js";
   import FolderAdd24 from "carbon-icons-svelte/lib/FolderAdd24";
 
   export let listFiles;
+  const dispatch = createEventDispatcher();
 
   const { session } = stores();
   const { token } = $session.user.data;
   const folder = $userProfile.area.name;
 
-  const API_URL = process.env.API_URL;
-
-  const handleDownload = async (fileName) => {
-    const response = await getResourceById(fileName, folder, token);
-    console.log(response);
+  const handleDownload = async (file) => {
+    const blobFile = await getResourceById(file.fileUrl, folder, token);
+    const linkDownload = URL.createObjectURL(blobFile.data);
+    dispatch("blobFile", { linkDownload, file });
   };
 </script>
 
@@ -48,8 +49,12 @@
         <thead>
           <tr class="text-center">
             <th
+              class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100 rounded-tr rounded-br"
+              >Obtener</th
+            >
+            <th
               class="px-2 py-3 text-sm font-semibold tracking-wider text-left text-gray-900 bg-gray-100 rounded-tl rounded-bl"
-              >Nombre</th
+              >Nombre archivo</th
             >
             <th
               class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
@@ -61,17 +66,22 @@
             >
             <th
               class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
-              >Usuario</th
+              >Responsable</th
             >
             <th
-              class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100 rounded-tr rounded-br"
-              >Descarga</th
+              class="px-2 py-3 text-sm font-semibold tracking-wider text-gray-900 bg-gray-100"
+              >Mensaje</th
             >
           </tr>
         </thead>
         <tbody class="text-sm">
           {#each listFiles as file}
             <tr>
+              <td class="flex justify-center px-4 py-2">
+                <button on:click={handleDownload(file)} class="text-center "
+                  ><SettingsCheck24 />
+                </button>
+              </td>
               <td class="px-4 py-2">
                 {file.fileName}
               </td>
@@ -82,17 +92,7 @@
                 {dateTimeAmPm(file.createdAt)}
               </td>
               <td class="px-4 py-2"> {file.user.responsable} </td>
-              <td class="flex justify-center px-4 py-2">
-                <a
-                  href="{API_URL}/files/{$userProfile.area.name}/{file.fileUrl}"
-                  class="text-center "><DocumentDownload24 /></a
-                >
-                <button
-                  on:click={handleDownload(file.fileUrl)}
-                  class="text-center "
-                  ><DocumentDownload24 />
-                </button>
-              </td>
+              <td class="px-4 py-2"> {file.message ? file.message : ""} </td>
             </tr>
           {/each}
         </tbody>
