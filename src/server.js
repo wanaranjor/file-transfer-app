@@ -1,19 +1,20 @@
-import sirv from 'sirv';
-import polka from 'polka';
-import compression from 'compression';
 import * as sapper from '@sapper/server';
 import { json } from 'body-parser';
+import compression from 'compression';
 import session from 'express-session';
-import sessionFileStore from 'session-file-store';
 import helmet from 'helmet';
 import jwt from 'jsonwebtoken';
+import polka from 'polka';
+import sessionFileStore from 'session-file-store';
+import sirv from 'sirv';
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
 const FileStore = sessionFileStore(session);
-const expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour milisegundos
-
+const hour = 3600000; // 1 hour milisegundos
+const expiryDate = new Date(Date.now() + hour * 6) // 6 horas
+console.log(expiryDate);
 // TODO: implementar:
 // cookie: {
 //   secure: true,
@@ -33,14 +34,13 @@ polka() // You can also use Express
       saveUninitialized: false,
       cookie: {
         secure: false,
-        maxAge: 31536000,
-        httpOnly: true,
         expires: expiryDate
       },
       store: new FileStore({
         path: process.env.NOW ? `/tmp/sapper/sessions` : `.sessions`
       })
-    }))
+    })
+  )
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
